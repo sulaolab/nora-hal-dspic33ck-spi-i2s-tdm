@@ -1,0 +1,29 @@
+# Normalize text to LF in the repo, CRLF in the working tree, independent of
+# each contributor's core.autocrlf / TortoiseGit settings. `text=auto` is what
+# prevents CRLF blobs from being committed; `eol=crlf` only sets checkout EOL
+# and matches the Windows / MPLAB X fleet convention.
+* text=auto eol=crlf
+
+# Binary assets/outputs (never EOL-converted)
+*.png binary
+*.jpg binary
+*.svg binary
+*.hex binary
+*.elf binary
+*.o   binary
+*.a   binary
+*.X.a binary
+*.bin binary
+*.exe binary
+*.uf2 binary
+
+# MPLAB X / build-tool-generated files: byte-exact, let the tool be EOL king.
+# Must come AFTER the general rule above (last-match-wins). Use -text (NOT
+# text eol=crlf) so git and MPLAB don't fight; the whitespace= attribute
+# suppresses the git diff --check cr-at-eol warning. Glob paths cover every
+# .X project in the repo (main + QTM etc.).
+**/nbproject/*.mk                       -text
+**/nbproject/Makefile-*                 -text
+**/nbproject/configurations.xml         -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+**/nbproject/private/configurations.xml -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
+**/nbproject/project.xml                -text whitespace=blank-at-eol,blank-at-eof,space-before-tab,cr-at-eol
